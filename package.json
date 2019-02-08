@@ -1,0 +1,16 @@
+{
+    "name" : "homoglyph-scraper",
+    "version" : "0.0.1",
+    "private": true,
+    "description" : "Scrape the homoglyphs.net site for a complete list of homoglyphs",
+    "author" : {
+        "name" : "Martin Charlesworth",
+        "email" : "martincharlesworth@gmail.com"
+    },
+    "dependencies" : {
+        "got" : "9.6.0",
+        "cheerio" : "1.0.0-rc.2",
+        "jsonframe-cheerio" : "3.0.1"
+    }
+
+}
