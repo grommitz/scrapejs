@@ -9,7 +9,7 @@ async function scrape() {
     jsonframe($); // initializes the plugin
 
     var frame = {
-        "chars" : {
+        chars : {
             _s : "tr.hglistod, tr.hglistev",
             _d : [{
                 "char" : "td.charleft",
@@ -18,9 +18,19 @@ async function scrape() {
         } 
     };
     
-    var list = $('body').scrape(frame, {string:true});
-    console.log(list); // Output the data in the terminal
+    var data = $('body').scrape(frame);
 
+    for (let ch of data.chars) {
+        var chr = ch.char;
+        var upos = ch.homoglyphs.shift();
+        var homs = ch.homoglyphs.filter(s => s.trim() != ""); // remove the blanks
+        //console.log("char = " + chr + " (" + upos + "), homoglyphs = " + homs);
+        var charsonly = [];
+        for (var i=0; i<homs.length; i = i+2) {
+            charsonly.push(homs[i]);
+        }
+        console.log(chr + "," + charsonly);
+    }
 }
 
 scrape();
