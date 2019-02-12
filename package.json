@@ -1,16 +1,24 @@
 {
-    "name" : "homoglyph-scraper",
-    "version" : "0.0.1",
-    "private": true,
-    "description" : "Scrape the homoglyphs.net site for a complete list of homoglyphs",
-    "author" : {
-        "name" : "Martin Charlesworth",
-        "email" : "martincharlesworth@gmail.com"
-    },
-    "dependencies" : {
-        "got" : "9.6.0",
-        "cheerio" : "1.0.0-rc.2",
-        "jsonframe-cheerio" : "3.0.1"
-    }
-
+  "name": "scrapejs",
+  "version": "1.0.0",
+  "description": "Scrape web pages with cheerio",
+  "main": "amazon.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grommitz/scrapejs.git"
+  },
+  "author": "Martin Charlesworth",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/grommitz/scrapejs/issues"
+  },
+  "homepage": "https://github.com/grommitz/scrapejs#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "got": "^9.6.0",
+    "jsonframe-cheerio": "^3.0.1"
+  }
 }
