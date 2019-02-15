@@ -2,14 +2,6 @@ let cheerio = require('cheerio');
 let jsonframe = require('jsonframe-cheerio');
 let got = require('got');
 
-
-class ScrapeRequest {
-    constructor(uri, frame) {
-        this.uri = uri;
-        this.frame = frame;
-    }
-}
-
 class ScrapeItem {
     constructor(title, seller, price) {
         this.title = title;
@@ -24,25 +16,31 @@ class ScrapeResponse {
     }
 }
 
-async function scrape(req, resp) {
+class Scraper {
+    constructor(frame) {
+        this.frame = frame;
+    }
 
-    const html = await got(req.uri);
-    const $ = cheerio.load(html.body);
-    jsonframe($); // initializes the plugin
-
-
-    var data = $('body').scrape(req.frame);
-    //console.log(data);
-
-    for (let item of data.items) {
-        resp.items.push(new ScrapeItem(item.title, item.seller, item.price));
+    async scrape(url) {
+        const html = await got(url);
+        const $ = cheerio.load(html.body);
+        jsonframe($); // initializes the plugin
+        let data = $('body').scrape(this.frame);
+        let resp = new ScrapeResponse();
+        //console.log(data);
+        for (let item of data.items) {
+            resp.items.push(new ScrapeItem(item.title, item.seller, item.price));
+        }
+        return resp;
     }
 }
 
-async function doScrape(req, resp) {
+async function doScrape(url, frame) {
 
-    await scrape(req, resp);
-    console.log("Scraped " + resp.items.length + " items:");
+    let scraper = new Scraper(frame);
+    let resp = await scraper.scrape(url);
+
+    console.log("\nScraped " + resp.items.length + " items from " + frame.domain);
 
     for (var i = 0; i < resp.items.length; i++) {
         let item = resp.items[i];
@@ -50,7 +48,8 @@ async function doScrape(req, resp) {
     }
 }
 
-var amazonFrame = {
+let amazonFrame = {
+    domain : "amazon.co.uk",
     items : {
         _s : ".s-item-container",
         _d : [{
@@ -61,7 +60,18 @@ var amazonFrame = {
     }
 };
 
-let resp = new ScrapeResponse();
+let ebayFrame = {
+    domain : "ebay.com",
+    items : {
+        _s: ".clearfix",
+        _d : [{
+            "title" : ".s-item__title",
+            "seller" : ".s-item__itemLocation",
+            "price" : ".s-item__price"
+        }]
+    }
+}
 
-doScrape(new ScrapeRequest("https://www.amazon.co.uk/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=hermes",
-    amazonFrame), resp);
+doScrape("https://www.amazon.co.uk/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=hermes", amazonFrame);
+
+doScrape("https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313.TR12.TRC2.A0.H0.Xipad.TRS0&_nkw=ipad&_sacat=0", ebayFrame);
