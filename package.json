@@ -4,6 +4,8 @@
   "description": "Scrape web pages with cheerio",
   "main": "amazon.js",
   "scripts": {
+    "lint": "eslint .",
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,6 +20,7 @@
   "homepage": "https://github.com/grommitz/scrapejs#readme",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
+    "eslint": "^6.3.0",
     "got": "^9.6.0",
     "jsonframe-cheerio": "^3.0.1"
   }
