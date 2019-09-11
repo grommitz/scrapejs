@@ -1,6 +1,6 @@
-let cheerio = require('cheerio');
-let jsonframe = require('jsonframe-cheerio');
-let got = require('got');
+const cheerio = require('cheerio');
+const jsonframe = require('jsonframe-cheerio');
+const got = require('got');
 
 class ScrapeItem {
     constructor(title, seller, price) {
@@ -36,31 +36,25 @@ class Scraper {
 }
 
 async function doScrape(url, frame) {
-
     let scraper = new Scraper(frame);
     let resp = await scraper.scrape(url);
-
     console.log("\nScraped " + resp.items.length + " items from " + frame.domain);
-
-    for (var i = 0; i < resp.items.length; i++) {
-        let item = resp.items[i];
-        console.log("TITLE: " + item.title + "\n\tSELLER: " + item.seller + "\n\tPRICE: " + item.price);
-    }
+    resp.items.forEach(item => console.log("* TITLE: " + item.title + "\n\tSELLER: " + item.seller + "\n\tPRICE: " + item.price));
 }
 
-let amazonFrame = {
+const amazonFrame = {
     domain : "amazon.co.uk",
     items : {
-        _s : ".s-item-container",
+        _s : ".s-result-item",
         _d : [{
-            "title" : ".s-access-title",
-            "price" : ".s-price",
+            "title" : ".a-size-base-plus",
+            "price" : ".a-offscreen",
             "seller" : ".a-color-secondary+ .a-color-secondary"
         }]
     }
 };
 
-let ebayFrame = {
+const ebayFrame = {
     domain : "ebay.com",
     items : {
         _s: ".clearfix",
@@ -74,4 +68,5 @@ let ebayFrame = {
 
 doScrape("https://www.amazon.co.uk/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=hermes", amazonFrame);
 
-doScrape("https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313.TR12.TRC2.A0.H0.Xipad.TRS0&_nkw=ipad&_sacat=0", ebayFrame);
+
+//doScrape("https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313.TR12.TRC2.A0.H0.Xipad.TRS0&_nkw=ipad&_sacat=0", ebayFrame);
