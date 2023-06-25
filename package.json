@@ -20,7 +20,7 @@
   "homepage": "https://github.com/grommitz/scrapejs#readme",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
-    "eslint": "^6.3.0",
+    "eslint": "^8.43.0",
     "got": "^11.8.5",
     "jsonframe-cheerio": "^3.0.1"
   }
